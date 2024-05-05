@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using StackOverflow.Infrastructure.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link profile-image-container d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index" title="Recent Inbox Messages">
+                <img id="profileImage" src="" alt="" class="img-fluid rounded-circle profile-image" />
+            </a>
+        </li> 
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" title="Recent Inbox Messages">
+                <i class="fa fa-envelope"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" title="Recent Achievements: reputation,badges">
+                <i class="fa fa-star"></i>
+            </a>
+        </li>
+    }
+    else
+    {
+        <ul class="navbar-nav ml-auto">
+            <!-- Add this line to align items to the right -->
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+            </li>
+        </ul> <!-- Add this line to close the ul tag -->
+    }
+</ul>

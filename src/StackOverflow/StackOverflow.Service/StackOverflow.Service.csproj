@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-StackOverflow.Service-C2D5C07F-2715-4AC9-BBF7-60B4CC78C982</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.300" />
+        <PackageReference Include="AWSSDK.SQS" Version="3.7.300.71" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\StackOverflow.Application\StackOverflow.Application.csproj" />
+      <ProjectReference Include="..\StackOverflow.Infrastructure\StackOverflow.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="D\**" />
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="D\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="D\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="D\**" />
+    </ItemGroup>
+</Project>

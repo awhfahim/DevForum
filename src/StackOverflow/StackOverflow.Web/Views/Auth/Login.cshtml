@@ -1,0 +1,60 @@
+﻿@model LoginModel
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/login.css">
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ResendConfirmation))
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.ResendConfirmation)
+    </div>
+}
+
+<div class="row loginSection">
+<div class="col-md-5">
+    <section>
+        <form id="account" asp-action="Login" asp-controller="Auth" asp-antiforgery="true" method="post">
+            <h2>Use a local account to log in.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder=" " />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder=" " />
+                <label asp-for="Password" class="form-label">Password</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" asp-for="RememberMe">
+                <label asp-for="RememberMe" class="form-check-label">
+                    Remember Me
+                </label>
+            </div>
+            <input asp-for="ReturnUrl" type="hidden" value="@TempData["ReturnUrl"]" />
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            </div>
+            <div>
+                <p>
+                    @* <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a> *@
+                </p>
+                <p>
+                    @* <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a> *@
+                </p>
+                <p>
+                    @* <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a> *@
+                </p>
+            </div>
+        </form>
+    </section>
+</div>
+</div>

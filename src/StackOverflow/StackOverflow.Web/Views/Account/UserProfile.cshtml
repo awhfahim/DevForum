@@ -1,0 +1,112 @@
+﻿@model ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+<div>
+    <div class="profile-container card">
+        <div class="card-body">
+            <h5 class="card-title">Profile Picture</h5>
+            <img id="profileImage2" src="" alt="~/images/myImage300x300.jpg" class="img-fluid rounded-circle profile-picture">
+            <form id="profile-picture-form" method="post" asp-antiforgery="true" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="profile-picture-upload" class="form-label">Upload Profile Picture</label>
+                    <input class="form-control" type="file" id="profile-picture-upload" name="profilePicture">
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+    
+    <form asp-action="UserProfile" asp-controller="Account" asp-antiforgery="true">
+
+        <div class="form-group">
+            <label asp-for="DisplayName">Display Name</label>
+            <input type="text" class="form-control" id="displayName" name="DisplayName" asp-for="DisplayName"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="FullName">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="FullName" asp-for="FullName"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="Location">Location</label>
+            <input type="text" class="form-control" id="location" name="Location" asp-for="Location"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="AboutMe">About Me</label>
+            <textarea class="form-control" id="aboutMe" name="AboutMe" asp-for="AboutMe">@Model.AboutMe</textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="WebsiteLink">Website Link</label>
+            <input type="text" class="form-control" id="websiteLink" name="WebsiteLink" asp-for="WebsiteLink"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="TwitterUsername">Twitter Username</label>
+            <input type="text" class="form-control" id="twitterUsername" name="TwitterUsername" asp-for="TwitterUsername"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="GitHubUsername">GitHub Username</label>
+            <input type="text" class="form-control" id="gitHubUsername" name="GitHubUsername" asp-for="GitHubUsername"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#profile-picture-upload').change(function() {
+                var file = $(this)[0].files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.profile-picture').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+                $.ajax({
+                    url: '/Account/GetProfilePictureUrl',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response) {
+                            $('#profileImage2').attr('src', response);
+                        }
+                    },
+                    error: function() {
+                        console.log('Error getting profile picture URL');
+                    }
+                });
+            });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#profile-picture-form').submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/Account/UploadProfilePicture',
+                    type: 'POST',
+                    data: formData,
+                    headers: { 'X-CSRF-TOKEN': $('input[name=__RequestVerificationToken]').val() },
+                    success: function(data) {
+                        $('#profileImageUrl').val(data);
+                        var alertHtml = '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                        'Upload Successful!' +
+                                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                        '</div>';
+                        $('#profile-picture-form').prepend(alertHtml);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>@ViewData["Title"] - StackOverflow</title>
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+	      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+	<link rel="stylesheet" href="~/admin/plugins/fontawesome-free/css/all.min.css">
+
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/jqvmap/jqvmap.min.css">
+
+	<link rel="stylesheet" href="~/admin/css/adminlte.min.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" href="~/admin/plugins/summernote/summernote-bs4.min.css">
+
+	<link rel="stylesheet" href="~/css/site.css">
+	<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+	@await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="container hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+	<nav class="flex navbar navbar-white navbar-light" id="main-navbar">
+		<header>
+			<nav class="navbar navbar-expand-lg bg-body-tertiary">
+				<div class="container">
+					<a class="navbar-brand" asp-action="Index" asp-controller="Home">
+						<img src="https://stackoverflow.design/assets/img/logos/so/logo-stackoverflow.png" alt="Stack Overflow" width="150px" height="30px">
+					</a>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">About</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Products</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Teams</a>
+							</li>
+						</ul>
+						<form class="d-flex" role="search" style="width:480px">
+							<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+							<button class="btn btn-outline-success" type="submit" style="margin-left:20px">Search</button>
+						</form>
+						<div style="margin-left: 5px">
+							<partial name="_LoginPartial" />
+						</div>
+					</div>
+				</div>
+			</nav>
+		</header>
+	</nav>
+
+	<div class="row mt-2">
+		<div class="col-md-2">
+			<div class="sidebar" >
+				<nav class="mt-2">
+					<partial name="_AdminLeftMenuPartial" />
+				</nav>
+			</div>
+		</div>
+
+		<div class="col-md-10 mt-2" style="border-left:1px solid black">
+			@RenderBody()
+		</div>
+	</div>
+
+	<footer class="main-footer">
+		<strong>Copyright &copy; 2014-2024 <a href="#">StackOverflow.com</a>.</strong>
+		All rights reserved.
+		<div class="float-right d-none d-sm-inline-block">
+			<b>Version</b> 3.2.0
+		</div>
+	</footer>
+		
+</div>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="~/admin/plugins/jquery/jquery.min.js"></script>
+	<script src="~/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<script>
+		$.widget.bridge('uibutton', $.ui.button)
+	</script>
+	<!-- Bootstrap 4 -->
+	<script src="~/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- ChartJS -->
+	<script src="~/admin/plugins/chart.js/Chart.min.js"></script>
+	<!-- Sparkline -->
+	<script src="~/admin/plugins/sparklines/sparkline.js"></script>
+	<!-- JQVMap -->
+	<script src="~/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
+	<script src="~/admin/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+	<!-- jQuery Knob Chart -->
+	<script src="~/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
+	<!-- daterangepicker -->
+	<script src="~/admin/plugins/moment/moment.min.js"></script>
+	<script src="~/admin/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="~/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- Summernote -->
+	<script src="~/admin/plugins/summernote/summernote-bs4.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="~/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="~/admin/js/adminlte.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="~/admin/js/demo.js"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script src="~/admin/js/pages/dashboard.js"></script>
+	<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+	
+	@if (User!.Identity.IsAuthenticated)
+	{
+		<script>
+            $(window).on('load', function() {
+                $.ajax({
+                    url: '/Account/GetProfilePictureUrl',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response) {
+                            $('#profileImage').attr('src', response);
+                        } else {
+                            $('#profileImage').attr('src', '/images/myImage300x300.jpg');
+                        }
+                    },
+                    error: function() {
+                        $('#profileImage').attr('src', '/images/myImage300x300.jpg');
+                    }
+                });
+            });
+ 
+            function refreshProfilePictureUrl() {
+                $.ajax({
+                    url: '/Account/GetProfilePictureUrl',
+                    type: 'GET',
+                    success: function(response) {
+                        if (response) {
+                            $('#profileImage').attr('src', response);
+                        } else {
+                            $('#profileImage').attr('src', '/images/myImage300x300.jpg');
+                        }
+                    },
+                    error: function() {
+                        $('#profileImage').attr('src', '/images/myImage300x300.jpg');
+                    }
+                });
+            }
+ 
+            setInterval(refreshProfilePictureUrl, 1500000); // Refresh after every 25 minutes
+ 	</script>
+		
+	 <script>
+	        $(document).ready(function() {
+	            $('#navbarDropdown').click(function(e) {
+	                e.preventDefault();
+	        
+	                $.ajax({
+	                    url: '/Notification/GetNotifications', // Replace 'ControllerName' with the actual name of your controller
+	                    type: 'GET',
+	                    dataType: 'json',
+	                    success: function(data) {
+							console.log(data);
+	                        var dropdownMenu = $('#navbarDropdown').next('.dropdown-menu');
+	                        dropdownMenu.empty();
+	        
+	                        $.each(data, function(i, notification) {
+							let questionId = notification.questionId;
+							console.log(questionId);
+							var text = notification.text;
+							var url = '/Question/Question/' + questionId;
+                                dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' + text + '</a>');
+                            });
+	        
+	                        dropdownMenu.append('<div class="dropdown-divider"></div>');
+	                        dropdownMenu.append('<a class="dropdown-item" href="#">See all notifications</a>');
+	                    }
+	                });
+	            });
+	        });  
+    </script>
+	}
+	
+	@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

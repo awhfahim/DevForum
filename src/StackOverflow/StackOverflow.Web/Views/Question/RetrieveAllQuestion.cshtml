@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Questions";
+    int pageSize = ViewBag.PageSize;
+    int pageNumber = ViewBag.PageNumber ?? 1;
+    int totalPages = ViewBag.TotalPage;
+    var sortOption = ViewBag.SortOption;
+    
+    var sortOptions = new List<string>
+    {
+        "Newest",
+        "Oldest",
+        "HighestScore",
+        "LowestScore",
+        "HighestAnswer",
+        "NoAnswer"
+    };
+
+    var pageSizeOptions = new List<int> { 10, 20, 50 };
+}
+
+<!-- Sort options dropdown -->
+<div class="form-group">
+    <label for="sortOption">Sort Option</label>
+    <select class="form-select" id="sortOption">
+        @foreach (var option in sortOptions)
+        {
+            <option>
+                @option
+            </option>
+        }
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="pageSize">Page Size</label>
+    <select class="form-select" id="pageSize">
+        @foreach (var size in pageSizeOptions)
+        {
+            <option>
+                @size
+            </option>
+        }
+    </select>
+</div>
+
+<div id="questionListContainer" class="container">
+    
+    <partial name="_QuestionListPartial" />
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var sortOption = '@ViewBag.SortOption';
+            $('#sortOption option').each(function() {
+                var optionText = $(this).text().trim();
+                if (optionText === sortOption) {
+                    console.log(optionText);
+                    $(this).attr('selected', 'selected');
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            var pageSize = '@ViewBag.PageSize';
+            $('#pageSize option').each(function() {
+                var optionText = $(this).text().trim();
+                if (optionText === pageSize) {
+                $(this).attr('selected', 'selected');
+            }
+        });
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#sortOption, #pageSize').change(function() {
+                var sortOption = $('#sortOption').val();
+                var pageSize = $('#pageSize').val();
+                $.ajax({
+                    url: '/Question/RetrieveAllQuestion',
+                    data: { pageNumber: 1, pageSize: pageSize, sortOption: sortOption },
+                    type: 'GET',
+                    success: function(data) {
+                      $('#questionListContainer').html(data);
+                    },
+                    error: function() {
+                        alert('An error occurred while retrieving the questions.');
+                    }
+                });
+            });
+        });
+    </script>
+
+}

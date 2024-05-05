@@ -1,0 +1,25 @@
+﻿@model TagListModel
+
+@{
+    ViewBag.Title = "Tags";
+}
+
+<div class="row">
+    @foreach(var tag in Model.Tags)
+    {
+        <div class="col-md-3">
+            <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                <div class="card-header">
+                    <a asp-action="GetQuestionsByTagId" asp-area="Discussion" asp-controller="Tag" 
+                       asp-route-tagId="@tag.Id" asp-route-tagName="@tag.Name">
+                        @tag.Name
+                    </a>
+                </div>
+              <div class="card-body">
+                  <h5 class="card-title">Tag: @tag.Name</h5>
+                  <p class="card-text">This is a discussion tag named '@tag.Name'. It is used to categorize and filter discussions based on their content.</p>
+              </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,14 @@
+﻿.container .col-2 a {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+}
+
+
+.container .col-2 a.active {
+    background-color: #ffa500;
+    color: #fff;
+}

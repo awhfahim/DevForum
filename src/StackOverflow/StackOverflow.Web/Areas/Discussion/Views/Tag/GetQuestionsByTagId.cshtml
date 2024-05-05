@@ -1,0 +1,51 @@
+﻿@model TagListModel
+@{
+    ViewBag.Title = "Questions";
+}
+
+<h2>Questions tagged [@Model.TagName]</h2>
+
+<p>
+    For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations 
+    (except for ActionScript). Note that JavaScript is NOT Java. Include all tags that are relevant to your question: e.g., 
+    [node.js], [jQuery], [JSON], [ReactJS], [angular], [ember.js], [vue.js], [typescript], [svelte], etc.<br>
+</p>
+
+@foreach (var question in Model.Questions)
+{
+    <div class="d-flex col-md-12 border-top border-bottom mb-3">
+        <div class="col-md-2 ">
+            <div class="d-flex align-items-end flex-column">
+                <div><i class="fas fa-thumbs-up mb-3"></i>  @question.TotalVotes votes</div>
+                <div><i class="fas fa-comment mb-3"></i>  @question.TotalVotes answers</div>
+                <div><i class="fas fa-eye"></i>  12212  views</div>
+            </div>
+        </div>
+
+        <div class="col-md-10 ml-3 mt-1">
+            <div class="">
+                <a asp-action="Question" asp-controller="Question" 
+                   asp-route-id="@question.Id">
+                    <h5 class="text-primary">@RenderMarkdown(question.Title)</h5>
+                </a>
+                <p class="">@RenderMarkdown(question.Body.Length > 200 ? question.Body.Substring(0, 200) : question.Body)</p>
+            </div>
+        </div>
+    </div>
+}
+
+@functions
+{
+    static HtmlString RenderMarkdown(string markdown)
+    {
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();
+        var document = Markdown.ToHtml(markdown, pipeline);
+
+        var sanitizer = new HtmlSanitizer();
+        sanitizer.AllowedTags.Remove("form");
+        sanitizer.AllowedTags.Remove("input");
+        var sanitizedHtml = sanitizer.Sanitize(document);
+            
+        return new HtmlString(sanitizedHtml);
+    }
+}

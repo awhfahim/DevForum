@@ -1,0 +1,38 @@
+﻿<ul class=" nav nav-pills flex-column" data-widget="treeview" role="menu" data-accordion="false">
+<li class="nav-item">
+           <a class="nav-link" asp-action="UserProfile" asp-controller="Account" asp-area="">
+            <i class="nav-icon fas fa-tachometer-alt"> User Profile</i>
+           </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link" asp-action="Index" asp-area="Discussion" asp-controller="User">
+            <i class="nav-icon fas fa-users"> User Dashboard</i>
+
+           </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link" asp-action="Ask" asp-controller="Question" asp-area="">
+            <i class="nav-icon fas fa-question">Ask Question</i>
+           </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link" asp-action="RetrieveAllQuestion" asp-controller="Question" asp-area="">
+            <i class="nav-icon fas fa-comment"> All Questions</i>
+           </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link" asp-action="Index" asp-controller="Tag" asp-area="Discussion">
+            <i class="nav-icon fas fa-tags">Tags</i>
+           </a>
+       </li>
+       <li class="nav-item">
+           <a href="/admin/categories" class="nav-link">
+            <i class="nav-icon fas fa-list"> Categories</i>
+           </a>
+       </li>
+       <li class="nav-item">
+       <a href="/admin/settings" class="nav-link">
+            <i class="nav-icon fas fa-cogs"> Settings</i>
+       </a>
+       </li>
+</ul>

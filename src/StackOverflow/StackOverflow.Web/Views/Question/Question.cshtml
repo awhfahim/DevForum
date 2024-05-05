@@ -1,0 +1,246 @@
+﻿@model QuestionRetrievalViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/icon.css">
+}
+
+<div class="container">
+
+    <h2 class="my-3 text-bold">@RenderMarkdown(Model.Title)</h2>
+                            <partial name="_ResponsePartial" />
+
+        <div class="row">
+            <div class="col-md-1">
+                <a id="upvote" class="btn text-secondary voting-icon" href="#"
+                   title="This question shows research &#13; effort; it is useful and clear">
+                    <i class="fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                </a>
+                <p class="vote-count">@Model.TotalVotes </p>
+                
+                <a id="downvote" href="#" class="btn text-secondary voting-icon"
+                   title="This question does not show &#13;any research effort; &#13;it is unclear or not useful">
+                    <i class="fa fa-caret-down fa-3x" aria-hidden="true"></i>
+                </a>
+            </div>
+            
+            <div class=" col-md-11">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        @RenderMarkdown(Model.Body)
+                    </div>
+                </div>
+
+                @* dynamically setting the href of the edit link using javascript *@
+                <a id="editLink">
+                    Edit Question
+                </a>
+
+                <h5 class="my-3">Comments</h5>
+
+                @foreach (var comment in Model.QuestionComments)
+                {
+                    <div style="padding: 10px 0; border-bottom: 1px solid #ddd;">
+                        <p style="margin: 0;">@RenderMarkdown(comment.Text)</p>
+                    </div>
+                }
+            </div>
+            <partial name="_AddCommentResponsePartial" />
+            <button id="addCommentButton" class="btn btn-primary font-weight-lighter text-gray-dark mb-3"
+                    style="background-color: white; color: white; border: none;">Add a comment</button>
+            
+            <div id="addCommentForm" class="card mb-3" style="display: none;">
+                <div class="card-body">
+                    <form asp-controller="Question" asp-action="AddComment" asp-antiforgery="true">
+                        <div class="form-group">
+                            <label for="text">Comment:</label>
+                            <textarea  id="commentText" name="Text" class="form-control" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" id="lastSegment2" name="QuestionId"/>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <h5 class="my-3">Answers</h5>
+
+            @foreach (var answer in Model.Answers)
+            {
+                <div class="col-md-1">
+                    <a href="#" class="btn text-secondary  voting-icon answerUpVote" title="This answer is useful">
+                        <i class="fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                    </a>
+                    <p class="vote-count">0</p>
+                    <a href="#" class="btn text-secondary voting-icon answerDownVote" title="This answer is not useful">
+                        <i class="fa fa-caret-down fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+                
+                <div class="card mb-3 col-md-11">
+                    <div class="card-body">
+                        @RenderMarkdown(answer.Body)
+                    </div>
+                </div>    
+            }
+
+        </div>
+    
+        <button id="addAnswerButton" class="btn btn-primary font-weight-lighter text-gray-dark mb-3 mt-3"
+                style="background-color: white; color: white; border: 1px solid silver;">Post Your Answer</button>
+        <div id="addAnswerForm" class="card mb-3" style="display: none;">
+            <div class="card-body">
+                <form asp-area="Discussion" asp-controller="Answer" asp-action="CreateAnswer" asp-antiforgery="true">
+                    <div class="form-group">
+                        <label for="Body">Answer:</label>
+                        <textarea  id="answerText" name="Body" class="form-control" rows="3"></textarea>
+                    </div>
+                    <input type="hidden" id="lastSegment" name="QuestionId"/>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <h3 class="my-3">Tags</h3>
+        <div class="my-3">
+            @foreach (var tag in Model.QuestionTags)
+            {
+                <span class="badge bg-primary">@tag.TagName</span>
+            }
+        </div>
+</div>
+    
+    
+   
+
+ @functions {
+        static HtmlString RenderMarkdown(string markdown)
+        {
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseSyntaxHighlighting().Build();
+            var document = Markdown.ToHtml(markdown, pipeline);
+
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedTags.Remove("form");
+            sanitizer.AllowedTags.Remove("input");
+            var sanitizedHtml = sanitizer.Sanitize(document);
+            
+            return new HtmlString(sanitizedHtml);
+        }
+ }
+ 
+ @section Scripts
+ {
+     <script>
+          document.getElementById('addCommentButton').addEventListener('click', function() {
+              $.ajax({
+                  url: '/Question/AddComment/',
+                  type: 'GET',
+                  success: function(actionResult) {
+                      if (actionResult) {
+                          let form = document.getElementById('addCommentForm');
+                          if(form.style.display === 'none') {
+                              form.style.display = 'block';
+                          } else {
+                              form.style.display = 'none';
+                          }
+                      }
+                      else { location.reload(); }
+                  },
+                  error: function() {
+                      console.log('Error executing action');
+                  }
+              });
+          });
+          
+          document.getElementById('addAnswerButton').addEventListener('click', function() {
+              let form = document.getElementById('addAnswerForm');
+              if(form.style.display === 'none') {
+                  form.style.display = 'block';
+              } else {
+                  form.style.display = 'none';
+              }
+          });
+          
+  
+          let path = window.location.pathname;
+              let segments = path.split('/');
+              let lastSegment = segments.pop() || segments.pop();  // handle potential trailing slash
+              document.getElementById('lastSegment').value = lastSegment;
+              document.getElementById('lastSegment2').value = lastSegment;
+              
+              // Set the href of the edit link
+              let editLink = document.getElementById('editLink');
+              let upvoteLink = document.getElementById('upvote');
+              let downvoteLink = document.getElementById('downvote');
+              upvoteLink.href = `/Question/AddVote/${lastSegment}?voteType=UpVote`;
+              downvoteLink.href = `/Question/AddVote/${lastSegment}?voteType=DownVote`;
+              editLink.href = `/Question/Edit/${lastSegment}`;
+    
+              let answerUpvoteLinks = Array.from(document.getElementsByClassName('answerUpVote'));
+              let answerDownvoteLinks = Array.from(document.getElementsByClassName('answerDownVote'));
+              answerUpvoteLinks.forEach(() => console.log('answerUpvoteLinks'));
+              
+              // use an absolute path by adding a leading slash (/) to the URL. 
+              // This tells the browser that the path is absolute and should start from the root of the domain
+              answerUpvoteLinks.forEach(link => link.href = `/Discussion/Answer/AddVote/${lastSegment}?voteType=UpVote`);
+              answerDownvoteLinks.forEach(link => link.href = `/Discussion/Answer/AddVote/${lastSegment}?voteType=DownVote`);
+      </script>
+
+
+     <script>
+        function initializeEasyMDE(textareaId) {
+            return new EasyMDE({
+                element: document.getElementById(textareaId),
+                toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", 
+                "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide",
+                    {
+                        name: "code",
+                        action: function customFunction(editor){
+                            // Inserts '```\n\n```' at the current cursor position
+                            let cm = editor.codemirror;
+                            let output = '```c++\n\n```';
+                            let startPoint = cm.getCursor("start");
+                            let endPoint = cm.getCursor("end");
+                            cm.replaceSelection(output);
+                            startPoint.ch += 3; // Offset the cursor to be inside the code block
+                            endPoint.ch = startPoint.ch;
+                            cm.setSelection(startPoint, endPoint);
+                        },
+                        className: "fa fa-code",  // Set the icon class (Font Awesome)
+                        title: "Code Block",
+                    },
+                    {
+                        name: "html",
+                        action: function customFunction(editor){
+                            // Inserts '<p>\n\n</p>' at the current cursor position
+                            let cm = editor.codemirror;
+                            let output = '```html\n\n```';
+                            let startPoint = cm.getCursor("start");
+                            let endPoint = cm.getCursor("end");
+                            cm.replaceSelection(output);
+                            startPoint.ch += 3; // Offset the cursor to be inside the paragraph tags
+                            endPoint.ch = startPoint.ch;
+                            cm.setSelection(startPoint, endPoint);
+                        },
+                        className: "fa fa-html5",  // Set the icon class (Font Awesome)
+                        title: "HTML Block",
+                    }
+                ]
+            });
+        }
+        
+        let easymde1 = initializeEasyMDE("commentText");
+        let easymde2 = initializeEasyMDE("answerText");
+     </script>
+
+     <script>
+     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+     var toastList = toastElList.map(function (toastEl) {
+       return new bootstrap.Toast(toastEl, {'autohide': true, 'delay': 3000})
+     })
+     toastList.forEach(toast => toast.show());
+   </script>
+ }

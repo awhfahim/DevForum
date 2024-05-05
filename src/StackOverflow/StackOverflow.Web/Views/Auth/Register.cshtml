@@ -1,0 +1,39 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/register.css">
+}
+<div class="row register">
+    <div class="col-md-5">
+        <section>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" asp-antiforgery="true">
+                <h2>Create a new account.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder=" " />
+                <label asp-for="Email" class="form-label">Email</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder=" " />
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                
+                <div class="g-recaptcha" data-sitekey="6Lf9ZakpAAAAAPguRoDRoPa7oYiGuKQSTcMmEPli"></div>
+                <br/>
+                
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>
+}

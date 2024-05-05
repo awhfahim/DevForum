@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  stackoverflow.web:
+    build:
+      context: .
+      dockerfile: StackOverflow.Web/Dockerfile
+    image: stackoverflow
+    ports:
+        - "8000:80"
+        - "443:443"
+    env_file:
+      - StackOverflow.Web/web.env
+      - StackOverflow.Web/aws.env
+    volumes:
+        - ./StackOverflow.Web/Logs:/app/logs
+        - ./StackOverflow.Web/keys:/app/keys
+        - ./StackOverflow.Web/data-protection-keys:/root/.aspnet/DataProtection-Keys
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+    entrypoint: ["dotnet", "StackOverflow.Web.dll"]
