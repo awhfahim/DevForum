@@ -1,10 +1,10 @@
-# StackOverflow-Clone
+# DevForum
 
 ##About Project Architecture
 
 - **Clean Architecture**: The application follows the principles of Clean Architecture, with separate projects for the Domain, Application, Infrastructure, and Web layers. This separation of concerns ensures that the business rules and logic are decoupled from the infrastructure and presentation details, making the codebase easier to maintain and extend.
 
-# StackOverflow Web Application
+# DevForum Web Application
 
 This is a web application that mimics the functionality of StackOverflow. It's built using C#, JavaScript, and the .NET 7.0 framework.
 
@@ -96,9 +96,27 @@ These instructions will get you a copy of the project up and running on your loc
 2. Install .NET 7.0 SDK: You can download it from the official .NET download page.  
 3. Install Docker (optional): If you plan to use Docker for running the application, you can download it from the official Docker download page.  
 4. Install AWS CLI (optional): If you plan to use AWS services, you can download it from the official AWS CLI download page.  
-5. Set up the prerequisites: You need to set up the prerequisites mentioned in the README file. This includes obtaining Google reCAPTCHA API keys, setting up an SMTP server for email services, setting up a SQL Server for stored procedures, and installing NUnit for unit testing.  
-6. Restore the dependencies: Navigate to the project directory and run dotnet restore to restore the dependencies of the project.  
-7. Build the project: Run dotnet build to build the project.  
-8. Run the project: Run dotnet run to start the project.  
-9. Build the Docker image: Run docker-compose build to build the Docker images for the services defined in the docker-compose.yml file.  
-10. Run the Docker containers: Run docker-compose up to start the Docker containers.
+5. Set up the prerequisites: You need to set up the prerequisites mentioned in the README file. This includes obtaining Google reCAPTCHA API keys, setting up an SMTP server for email services, setting up a SQL Server for stored procedures, and installing NUnit for unit testing.
+
+For more details, you can view the complete code [here](https://github.com/awhfahim/DevForum/tree/main/src/StackOverflow).
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Contact
+
+If you have any questions, feel free to open an issue or contact me here fahimhasan314@gmail.com.
+
+---
+
+Developed by Abu Wabaidar Hasan Fahim.
+
+---
+
+
+7. Restore the dependencies: Navigate to the project directory and run dotnet restore to restore the dependencies of the project.  
+8. Build the project: Run dotnet build to build the project.  
+9. Run the project: Run dotnet run to start the project.  
+10. Build the Docker image: Run docker-compose build to build the Docker images for the services defined in the docker-compose.yml file.  
+11. Run the Docker containers: Run docker-compose up to start the Docker containers.
